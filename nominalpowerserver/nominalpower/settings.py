@@ -13,6 +13,18 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
+# SECURITY WARNING: don't run with CORS_ORIGIN_ALLOW_ALL turned on in production!
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = False
+CORS_ORIGIN_WHITELIST = ('localhost:8000', 'localhost:4200')
+CORS_ALLOW_METHODS = (
+    'POST',
+    'OPTIONS'
+    'GET',
+    'PUT'
+)
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
@@ -21,14 +33,13 @@ SECRET_KEY = 'o&zm)ppovt6d-u597rd$)euu$16*9%hwlkthcb5alpv1=(dq5@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-# SECURITY WARNING: don't run with CORS_ORIGIN_ALLOW_ALL turned on in production!
-CORS_ORIGIN_ALLOW_ALL = True
+
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
 
-
+WSGI_APPLICATION = 'nominalpower.wsgi.application'
 
 # Application definition
 
@@ -48,21 +59,23 @@ INSTALLED_APPS = (
     'installations',
 )
 
-MIDDLEWARE_CLASSES = (
+
+MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsPostCsrfMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-)
+]
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-    ),
+    # 'DEFAULT_AUTHENTICATION_CLASSES': (
+    #     'rest_framework.authentication.TokenAuthentication',
+    #     'rest_framework.authentication.SessionAuthentication',
+    # ),
     'PAGE_SIZE': 10,
     'EXCEPTION_HANDLER': 'rest_framework_json_api.exceptions.exception_handler',
     'DEFAULT_PAGINATION_CLASS':
@@ -70,7 +83,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PARSER_CLASSES': (
         'rest_framework_json_api.parsers.JSONParser',
         'rest_framework.parsers.FormParser',
-        'rest_framework.parsers.MultiPartParser'
+        'rest_framework.parsers.MultiPartParser',
     ),
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework_json_api.renderers.JSONRenderer',
@@ -81,7 +94,6 @@ REST_FRAMEWORK = {
 
 ROOT_URLCONF = 'nominalpower.urls'
 
-WSGI_APPLICATION = 'nominalpower.wsgi.application'
 
 
 # Database
