@@ -1,4 +1,5 @@
 # nominal-power
+<!-- https://photovoltaic-software.com/PV-solar-energy-calculation.php -->
 
 ## requirements
 ### server

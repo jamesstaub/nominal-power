@@ -21,3 +21,6 @@ client/testem.log
 client/.node_modules.ember-try/
 client/bower.json.ember-try
 client/package.json.ember-try
+
+
+*.pyc

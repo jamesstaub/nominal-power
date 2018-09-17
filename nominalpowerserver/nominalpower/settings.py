@@ -45,7 +45,7 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
     'rest_framework_json_api',
     'nominalpower',
-    'map',
+    'installations',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -87,13 +87,13 @@ WSGI_APPLICATION = 'nominalpower.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-         'NAME': 'geodjango',
-         'USER': 'geo',
-    },
-}
+# DATABASES = {
+#     'default': {
+#          'ENGINE': 'django.contrib.gis.db.backends.postgis',
+#          'NAME': 'nominalpower',
+#          'USER': 'james',
+#     },
+# }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
