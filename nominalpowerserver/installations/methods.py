@@ -3,23 +3,25 @@ from collections import OrderedDict
 import requests
 import uuid
 import json
+
 # http://epsg.io/32118
 EPSG_NY = 32118
 
 class GeoResponse:
     """
-    Instatiate with a geojson shape
-    calculate selected area and nominal power
+    Instatiate with a geojson shape and any parameters from the client request
+    calculate nominal power in kWh and selected area in m^2
     """
+
     def __init__(self, installation_dict):
-        geojson = installation_dict['geojson']
+
+        geojson = installation_dict['shape']
         data_source = installation_dict['data_source']
 
         self.polygon = GEOSGeometry(str(geojson['geometry']))
         self.area, self.centroid = self.get_area()
         self.solar_radiation = self.get_solar_radiation(data_source)
         self.nominal_power = self.get_nominal_power()
-
         self.json = self.get_json_response()
 
     def get_area(self):
@@ -51,7 +53,7 @@ class GeoResponse:
         params = (
             ('request', 'execute'),
             ('identifier', 'SinglePoint'),
-            ('parameters', 'SI_EF_TILTED_SURFACE, DNR', 'SI_EF_OPTIMAL_ANG'),
+            ('parameters', 'SI_EF_TILTED_SURFACE,DNR'),
             ('userCommunity', 'SSE'),
             ('tempAverage', 'CLIMATOLOGY'),
             ('outputList', 'JSON'),
@@ -64,7 +66,6 @@ class GeoResponse:
 
         if response.status_code is 200:
             data = json.loads(response.content)
-
             direct_normal_radiation = OrderedDict(data['features'][0]['properties']['parameter'][data_source])
 
             #ordered dict of monthly values for kW-hr/m^2/day (not sure why list is 13 items long)
@@ -72,7 +73,6 @@ class GeoResponse:
             annual_average_radiation = sum(direct_normal_radiation) / float(len(direct_normal_radiation))
 
             return annual_average_radiation
-
 
 
     def get_nominal_power(self):
@@ -96,11 +96,14 @@ class GeoResponse:
         return A * r * H * PR
 
     def get_json_response(self):
-        # not actually saving records fake response with uuid
+        """
+        create a a response payload for ember that resembles a database record
+        """
         return {
             'installation':{
                 'id': uuid.uuid4().int,
                 'area': self.area,
-                'nominal_power': self.nominal_power
+                'annual_average_radiation': round(self.solar_radiation, 2),
+                'nominal_power': round(self.nominal_power, 2)
             }
         }

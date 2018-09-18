@@ -1,0 +1,43 @@
+<div class="sidebar">
+  <div>
+    <h1>{{info}}</h1>
+  </div>
+
+  <div>
+    {{geo-search onGeoResponse=(action "setMapPosition")}}
+    {{#if drawnShape}}
+      <div class="btn-group">
+        <button class='submit-btn' onclick={{perform createInstallation}}>
+          {{#if createInstallation.isRunning}}
+            <img class='spinner' src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJiSURBVGhD7dnNi01xHMfxi5BSKA9NIg9ZsfAwY7JDoknNYjYIyUN5yI4ys/MHKBZsZjwtbD01M5o0KbKgbBAWSBY28hQSeXx/7vSrb6ffcW/6do7T/N71KvfW/d3za+75nfM7aqlUqrTm4DTu4SJWoXLNxhv8Nn5gAyrVKdhJBPdRqW4hNpGfGIfKdB6xiTxF6S3HFTzCJSxDXovxFdmJ7EBes9CLhxjGJri3At9gD0qv25BXO27iEx5gG/Kahpew48sBuHYZ2S+RQXjUg9j4Wvlce4zYFz2HR3nnlMyAWzonYl8yAI+OIDb+a7i2FLFzROeOR1MQO0f2wb1W6Jx4Af0l9NqzFpzDM9zGFqRSqVHUBCyErv7/lAbQPdPk+qviG4P9+AAtxdrP6MI5FU3XgbfQAF+wG0W3B/aaEgxBk2yY/gLvYD/8HYtQVNqzZHeY1ho0bCViH96OotLFMXYMwUE0bCb0e8x+WLflRTUR+klnjyHoQlN14xfCB/U0pOiOwR588AST0HTaEWrVWF1/VXw62Auwk9DudAkqme6wd0ErqX5yqdRoTFfqnbgLPXV5hTNYgMqkSeQ9fNAdhi7Q7q3DUaytv/JJ93GxSQR6OqkbWLc2w37BVnh0B3bcmI1wqx928Ovw6CPsuDGH4dZJ2MH74JFObDtuzF64NR3aC3zGNXg9ATyL2MEHuoEtffXSijR25J+5zUPYBcYcR6mthzZH79GpN/6SnuprdbIT0H8KncB4lJpdjfQQvFFaYrU6HYLOifn4L7qKMJEbeqOqabuqDZmu2nP1RiqVSqVGqtX+AFZvD+7dvtGvAAAAAElFTkSuQmCC">
+          {{else}}
+            calculate
+          {{/if}}
+        </button>
+        <select class='datasource-select' onchange={{action "selectDataSource" value="target.value"}}>
+          <option value="DNR">Direct Normal Radiation</option>
+          <option value="SI_EF_OPTIMAL">Solar Irradiance Optimal</option>
+        </select>
+      </div>
+
+    {{/if}}
+  </div>
+
+  <div class="results">
+    {{#if createInstallation.isRunning}}
+      <p class='small-txt'>waiting for <a href="https://power.larc.nasa.gov/">NASA's POWER API</a></p>
+    {{else}}
+      {{#if installation.nominal_power}}
+        <p>The area of your installation is <span class='bold'>{{installation.area}}</span> square meters</p>
+        <p>The nominal power of your solar installation of this size is <span class='bold'>{{installation.nominal_power}}</span> kWh.</p>
+      {{/if}}
+    {{/if}}
+  </div>
+</div>
+
+{{#leaflet-map lat=lat lng=lng zoom=zoom}}
+  {{tile-layer url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"}}
+  {{#if hasEnteredAddress}}
+    {{draw-control onDrawCreated=(action 'updateFeature')}}
+  {{/if}}
+{{/leaflet-map}}

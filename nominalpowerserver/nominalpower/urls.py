@@ -8,5 +8,5 @@ router = routers.DefaultRouter()
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/installations/', installation),
-    # path('api/installations/', Installation.as_view()),
+
 ]
