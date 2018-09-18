@@ -1,0 +1,71 @@
+@keyframes spinner {
+  0% {
+    transform: translate3d(-50%, -50%, 0) rotate(0deg);
+  }
+  100% {
+    transform: translate3d(-50%, -50%, 0) rotate(360deg);
+  }
+}
+
+.map-container {
+  display: flex;
+  position: relative;
+  width: 100%;
+
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    background-color: $gray;
+    max-width: 300px;
+    padding: 0 20px;
+
+    width: 600px;
+    z-index: 410;
+
+
+    .btn-group {
+      flex: 10 auto;
+      position: relative;
+
+      .spinner {
+        animation: 2s linear infinite spinner;
+        width: 25px;
+        position: absolute;
+
+      }
+
+      .datasource-select {
+        margin-top: 15px;
+      }
+
+      .submit-btn {
+        color: white;
+        border-radius: 5px;
+        background-color: $fillBlue;
+        height: 30px;
+        text-align: center;
+        margin: 15px 0 0;
+        position: relative;
+        width: calc(100% - 25px);
+
+        &:hover {
+          background-color: darken($fillBlue, 20%)
+        }
+      }
+    }
+
+
+  }
+
+
+  .leaflet-container {
+    height: calc(100vh - 20px);
+    width: 100%;
+
+    .leaflet-draw-draw-polyline,
+    .leaflet-draw-draw-circlemarker,
+    .leaflet-draw-draw-marker {
+      display: none;
+    }
+  }
+}

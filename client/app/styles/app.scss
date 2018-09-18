@@ -1,0 +1,21 @@
+$fillBlue: #3388ff;
+$gray: #e1e1e1;
+
+@import 'font';
+@import 'components/map-container';
+@import 'components/geo-search';
+
+body {
+  background: $gray;
+}
+
+p {
+  margin: 0;
+  padding: .5rem 0 0;
+}
+
+input, select, button {
+  &:focus {
+    outline: 0;
+  }
+}

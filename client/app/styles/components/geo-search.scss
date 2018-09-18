@@ -1,0 +1,11 @@
+.geo-search {
+  position: relative;
+  margin: 0 auto;
+
+  input {
+    border: solid 2px lightgray;
+    border-radius: 5px;
+    margin: 15px 0 0;
+    width: calc(100% - 30px);
+  }
+}
