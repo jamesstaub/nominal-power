@@ -7,35 +7,38 @@
 
 <!-- http://www.greenrhinoenergy.com/solar/radiation/characteristics.php -->
 
-## requirements
-### server
-- python 3.7
+### requirements
+- server
+  - python 3.7
+
+- client
+  - node
+  - npm or yarn
+  - ember cli
 
 
-### client
-- node
-- npm or yarn
-- ember cli
+### to run  
+- server
+  - cd nominalpowerserver
+  - `mkvirtualenv --python=/Library/Frameworks/Python.framework/Versions/3.7/bin/python3 <env name>`
+  - `pip install -r requirements.txt`
+  - start the python server on port 8000 `./manage.py runserver`
 
+- client
+  - `cd client`
+  - `yarn install`
+  - `ember s --proxy http://localhost:8000`
 
-## to run  
-### server
-- cd nominalpowerserver
-- `mkvirtualenv --python=/Library/Frameworks/Python.framework/Versions/3.7/bin/python3 <env name>`
-- `pip install -r requirements.txt`
-
-### client
-- `yarn install`
-- `ember s`
+open app at http://localhost:4200
 
 ## About
 This app calculates the nominal photovoltaic power for a given shape at a given location based on data from [NASA's POWER API](https://power.larc.nasa.gov/).
 
 To use:
 1. Enter an address in the US
+  - address is reverse geocoded by `openstreetmap.org`
 1. Draw the shape of your solar installation
 1. Click Calculate
-
 
 The calculation retrieves the annual average solar radiation for the given location and calculates the nominal power based on the following formula.
 
@@ -49,5 +52,5 @@ r = solar panel yield or efficiency(%)
 H = Annual average solar radiation on tilted panels (shadings not included)
 PR = Performance ratio, coefficient for losses (range between 0.5 and 0.9, default value = 0.75)
 
-- [photovoltaic-software.com](https://photovoltaic-software.com/PV-solar-energy-calculation.php)
 ```
+– formula from [photovoltaic-software.com](https://photovoltaic-software.com/PV-solar-energy-calculation.php)

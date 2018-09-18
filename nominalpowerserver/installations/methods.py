@@ -12,7 +12,7 @@ class GeoResponse:
     calculate selected area and nominal power
     """
     def __init__(self, installation_dict):
-        geojson = installation_dict['geojson']
+        geojson = installation_dict['shape']
         data_source = installation_dict['data_source']
 
         self.polygon = GEOSGeometry(str(geojson['geometry']))
@@ -51,7 +51,7 @@ class GeoResponse:
         params = (
             ('request', 'execute'),
             ('identifier', 'SinglePoint'),
-            ('parameters', 'SI_EF_TILTED_SURFACE, DNR', 'SI_EF_OPTIMAL_ANG'),
+            ('parameters', 'SI_EF_TILTED_SURFACE,DNR'),
             ('userCommunity', 'SSE'),
             ('tempAverage', 'CLIMATOLOGY'),
             ('outputList', 'JSON'),
@@ -64,7 +64,6 @@ class GeoResponse:
 
         if response.status_code is 200:
             data = json.loads(response.content)
-
             direct_normal_radiation = OrderedDict(data['features'][0]['properties']['parameter'][data_source])
 
             #ordered dict of monthly values for kW-hr/m^2/day (not sure why list is 13 items long)
@@ -72,7 +71,6 @@ class GeoResponse:
             annual_average_radiation = sum(direct_normal_radiation) / float(len(direct_normal_radiation))
 
             return annual_average_radiation
-
 
 
     def get_nominal_power(self):
@@ -101,6 +99,7 @@ class GeoResponse:
             'installation':{
                 'id': uuid.uuid4().int,
                 'area': self.area,
+                'annual_average_radiation': self.solar_radiation,
                 'nominal_power': self.nominal_power
             }
         }

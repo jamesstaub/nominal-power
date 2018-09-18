@@ -13,7 +13,6 @@ def installation(request):
     return JsonResponse(response.json)
 
 
-
  # NOTE: attempted to use django rest framework for nice api endpoint with ember, but got bogged down on
  # this error
  # rest_framework.exceptions.UnsupportedMediaType: Unsupported media type "application/json" in request.
