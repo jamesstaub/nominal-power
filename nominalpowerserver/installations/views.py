@@ -3,8 +3,16 @@
 # from rest_framework.renderers import JSONRenderer
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
+from installations.methods import GeoResponse
 import json
-import uuid
+
+@csrf_exempt
+def installation(request):
+    serialized = json.loads(request.body.decode())
+    response = GeoResponse(serialized['installation'])
+    return JsonResponse(response.json)
+
+
 
  # NOTE: attempted to use django rest framework for nice api endpoint with ember, but got bogged down on
  # this error
@@ -21,12 +29,3 @@ import uuid
 #         print(request.data)
 #         print('---------------')
 #         return Response({'some': 'data'})
-
-
-
-
-@csrf_exempt
-def installation(request):
-    serialized = json.loads(request.body.decode())
-    # not actually saving records fake response with uuid
-    return JsonResponse({'installation':{'id': uuid.uuid4().int, }})
