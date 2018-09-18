@@ -54,3 +54,5 @@ PR = Performance ratio, coefficient for losses (range between 0.5 and 0.9, defau
 
 ```
 – formula from [photovoltaic-software.com](https://photovoltaic-software.com/PV-solar-energy-calculation.php)
+
+see `/nominalpowerserver/installations/methods.py` for implementation of this formula
