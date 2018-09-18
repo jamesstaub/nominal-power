@@ -35,8 +35,7 @@ open app at http://localhost:4200
 This app calculates the nominal photovoltaic power for a given shape at a given location based on data from [NASA's POWER API](https://power.larc.nasa.gov/).
 
 To use:
-1. Enter an address in the US
-  - address is reverse geocoded by `openstreetmap.org`
+1. Enter an address in the US (address is reverse geocoded by `openstreetmap.org`)
 1. Draw the shape of your solar installation
 1. Click Calculate
 
@@ -55,4 +54,13 @@ PR = Performance ratio, coefficient for losses (range between 0.5 and 0.9, defau
 ```
 – formula from [photovoltaic-software.com](https://photovoltaic-software.com/PV-solar-energy-calculation.php)
 
-see `/nominalpowerserver/installations/methods.py` for implementation of this formula
+see `/nominalpowerserver/installations/methods.py` for implementation of this formula.
+
+
+## Running Tests
+A minimal integration test is stubbed out in `client/tests/integration/map-container-test.js`
+to run:
+`ember test -m 'Integration | Component | map container'`
+
+
+
