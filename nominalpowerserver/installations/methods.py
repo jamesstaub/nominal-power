@@ -88,8 +88,10 @@ class GeoResponse:
         H = Annual average solar radiation on tilted panels (shadings not included)
         PR = Performance ratio, coefficient for losses (range between 0.5 and 0.9, default value = 0.75)
         """
-
-        r = 21
+        
+        # 17% efficiency informed by          
+        # https://news.energysage.com/what-are-the-most-efficient-solar-panels-on-the-market/
+        r = 17
         A = self.area
         H = self.solar_radiation
         PR = 0.75
